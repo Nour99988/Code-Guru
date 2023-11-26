@@ -1,0 +1,84 @@
+/* styles.css */
+
+/* لعنصر myData */
+.myData {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* لرابط الخروج (Logout) */
+.logoutLink {
+  color: blue;
+  text-decoration: underline;
+  margin-right: 10px;
+}
+
+/* لزر إضافة الفاتورة */
+.addButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+/* للـ Propup */
+.propup {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+/* لحقل إدخال البيانات في الـ Propup */
+.propup input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* لزر الإرسال داخل الـ Propup */
+.propup button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.dataContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dataItem {
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.price {
+  color: green;
+}
