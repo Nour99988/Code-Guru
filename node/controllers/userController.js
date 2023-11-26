@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 const registerUser = async (req, res) => {
   const { name, email, password } = await req.body;
-  console.log(name, email, password);
 
   try {
     const existingUser = await User.findOne({ email });
@@ -13,13 +12,10 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ error: "this Email Already is exist" });
     }
 
-    // const token = generateAccessToken(email);
-    // const refreshToken = generateRefreshToken(email);
     const hashedPassword = await becryptPassword(password);
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
     const userId = newUser._id;
-    console.log(userId);
     const token = generateAccessToken(userId);
     const refreshToken = generateRefreshToken(userId);
     newUser.token = token;
@@ -27,8 +23,6 @@ const registerUser = async (req, res) => {
     await newUser.save();
     res.cookie("token", token);
     res.cookie("refreshToken", refreshToken);
-
-    console.log(token);
 
     return res.status(201).json({ message: "sucess ", refreshToken });
   } catch (error) {
@@ -38,7 +32,6 @@ const registerUser = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
 
   try {
     const existingUser = await User.findOne({ email });
@@ -57,7 +50,6 @@ const login = async (req, res) => {
 
     existingUser.token = token;
     await existingUser.save();
-    console.log("done");
 
     res.cookie("token", token);
     res.cookie("refreshToken", refreshToken);

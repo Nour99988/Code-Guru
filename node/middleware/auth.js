@@ -1,25 +1,43 @@
 const jwt = require("jsonwebtoken");
+const { verifyRefreshToken, generateAccessToken, generateRefreshToken, verifyToken } = require("../utils/manageToken");
+const User = require("../models/user");
 require("dotenv").config();
 
-const verifyToken = (req, res, next) => {
+const verifyxAuth = async (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
   const refreshtoken = req.headers.refrershtoken;
-
-  // console.log("From middleware", token);
 
   if (!token) {
     return res.status(401).json({ error: "There is No Token" });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    req.userId = decoded.userId;
-    console.log(decoded.userId);
+    const userId = verifyToken(token).userId;
+    req.userId = userId;
     next();
   } catch (error) {
-    log;
-    return res.status(401).json({ error: "Token is expire" });
+    if (error.name === "TokenExpiredError") {
+      const userId = verifyRefreshToken(refreshtoken).userId;
+      const prevTokenFromDB = await User.findById(userId).select("token");
+      if (prevTokenFromDB == token && userId) {
+        req.userId = userId;
+        return next();
+      }
+    }
+    return res.status(401).json({ error: "Token is not" });
   }
 };
 
-module.exports = verifyToken;
+const generateNewToken = async (req, res, next) => {
+  const userId = req.userId;
+  try {
+    const token = generateAccessToken(userId);
+    await User.findByIdAndUpdate(userId, { token: token }, { new: true });
+    req.newToken = token;
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: "failed to generate token fun generateNewToken" });
+  }
+};
+
+module.exports = { verifyxAuth, generateNewToken };

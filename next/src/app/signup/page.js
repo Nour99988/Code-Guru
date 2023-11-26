@@ -19,7 +19,6 @@ const Page = () => {
     }
   };
   const handleSignUp = async () => {
-    // console.log(name, email, password);
     await handelRequest({
       method: "POST",
       url: "/api/signup",

@@ -2,13 +2,12 @@ const express = require("express");
 const router = express.Router();
 const { registerUser, login } = require("../controllers/userController");
 const { addExponse, getexponses } = require("../controllers/expensesController");
-const verifyToken = require("../middleware/auth");
-const { generateAccessToken } = require("../utils/manageToken");
+const { verifyxAuth, generateNewToken } = require("../middleware/auth");
 
 router.post("/signup", registerUser);
 router.post("/login", login);
 
-router.get("/expenses", verifyToken, getexponses);
-router.post("/expenses", verifyToken, addExponse);
+router.get("/expenses", verifyxAuth, generateNewToken, getexponses);
+router.post("/expenses", verifyxAuth, generateNewToken, addExponse);
 
 module.exports = router;

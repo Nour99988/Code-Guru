@@ -14,13 +14,10 @@ const Page = () => {
   const [value, setValue] = useLocalStorage("refreshToken", "");
   const router = useRouter();
   const handelLogin = ({ massage, refreshToken }) => {
-    console.log(massage);
-    console.log(value);
     setValue(refreshToken);
     if (massage == 400) {
       setErrorMassage("this Email alrady is exist please login");
     } else if (massage == 200) {
-      console.log(refreshToken);
       router.push("/profile");
     }
   };

@@ -29,7 +29,6 @@ export async function POST(req) {
     });
 
     if (apiRes.status === 400) {
-      console.log("fsfs");
       return NextResponse.json({ massage: apiRes.status }).status(apiRes.status);
     } else if (apiRes.status === 201) {
       return NextResponse.json({ massage: apiRes.status, refreshToken });

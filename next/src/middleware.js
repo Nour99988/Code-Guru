@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 export const config = { matcher: ["/api/signup/", "/signup/", "/profile/", "/login/", "/"] };
 
 export async function middleware(request, response) {
-  console.log(cookies().getAll());
   if (
     request.nextUrl?.pathname.startsWith("/signup") ||
     request.nextUrl?.pathname.startsWith("/login") ||
@@ -17,6 +16,15 @@ export async function middleware(request, response) {
       return NextResponse.redirect(url);
     } else {
       return NextResponse.next();
+    }
+  }
+  if (request.nextUrl?.pathname.startsWith("/profile") || request.nextUrl?.pathname.startsWith("/logout")) {
+    if (request.cookies.has("accesstoken")) {
+      return NextResponse.next();
+    } else {
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      return NextResponse.redirect(url);
     }
   }
   if (request.nextUrl?.pathname.startsWith("/profile")) {
